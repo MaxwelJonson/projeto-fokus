@@ -1,13 +1,18 @@
 const html = document.querySelector('html')
 
-const tituloPag = document.querySelector('h1')
+const tituloPag = document.querySelector('.app__title')
 const imagemPag = document.querySelector('.app__image')
 
 const focoBt = document.querySelector('.app__card-button--foco')
 const curtoBt = document.querySelector('.app__card-button--curto')
 const longoBt = document.querySelector('.app__card-button--longo')
 
-const startPauseBt = document.querySelector('#start-pause')
+const displayTempo = document.querySelector('#timer')
+const tempoFoco = 1500
+const tempoCurto = 300
+const tempoLongo = 900
+
+const startPauseBt = document.querySelector('.app__card-primary-button')
 const startPauseBtImg = document.querySelector('.app__card-primary-butto-icon')
 const startPauseBtTxt = document.querySelector('span')
 
