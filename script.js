@@ -17,21 +17,18 @@ const startPauseBtImg = document.querySelector('.app__card-primary-butto-icon')
 const startPauseBtTxt = document.querySelector('span')
 
 focoBt.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'foco')
     tituloPag.innerHTML = 'Otimize sua produtividade, <strong class="app__title-strong">mergulhe no que importa</strong>'
-    imagemPag.setAttribute('src', '/imagens/foco.png')
+    alterarContexto('foco')
 })
 
 curtoBt.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'descanso-curto')
     tituloPag.innerHTML = 'Que tal dar uma respirada? <strong class="app__title-strong">Faça uma pausa curta!</strong>'
-    imagemPag.setAttribute('src', '/imagens/descanso-curto.png')
+    alterarContexto('descanso-curto')
 })
 
 longoBt.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'descanso-longo')
     tituloPag.innerHTML = 'Hora de voltar à superfície. <strong class="app__title-strong">Faça uma pausa longa.</strong>'
-    imagemPag.setAttribute('src', '/imagens/descanso-longo.png')
+    alterarContexto('descanso-longo')
 })
 
 startPauseBt.addEventListener('click', () => {
@@ -43,3 +40,8 @@ startPauseBt.addEventListener('click', () => {
         startPauseBtTxt.innerHTML = 'Começar'
     }
 })
+
+function alterarContexto(contexto) {
+    html.setAttribute('data-contexto', contexto)
+    imagemPag.setAttribute('src', `/imagens/${contexto}.png`)
+}
