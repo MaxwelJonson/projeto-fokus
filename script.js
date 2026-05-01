@@ -9,6 +9,8 @@ const curtoBt = document.querySelector('.app__card-button--curto')
 const longoBt = document.querySelector('.app__card-button--longo')
 
 const displayTempo = document.querySelector('#timer')
+let intervaloId = null
+let tempoDecorridoEmSeg = 5
 const tempoFoco = 1500
 const tempoCurto = 300
 const tempoLongo = 900
@@ -16,6 +18,10 @@ const tempoLongo = 900
 const musicaBt = document.querySelector('#alternar-musica')
 const musica = new Audio('/sons/luna-rise-part-one.mp3')
 musica.loop = true
+const somPause = new Audio('/sons/pause.mp3')
+const somPlay = new Audio('/sons/play.wav')
+const somStop = new Audio('/sons/beep.mp3')
+
 const startPauseBt = document.querySelector('.app__card-primary-button')
 const startPauseBtImg = document.querySelector('.app__card-primary-butto-icon')
 const startPauseBtTxt = document.querySelector('span')
@@ -43,15 +49,19 @@ musicaBt.addEventListener('change', () => {
     }
 })
 
-startPauseBt.addEventListener('click', () => {
-    if (startPauseBtTxt.textContent == 'Começar') {
-        startPauseBtImg.setAttribute('src', '/imagens/pause.png')
-        startPauseBtTxt.innerHTML = 'Pausar'
-    } else {
-        startPauseBtImg.setAttribute('src', '/imagens/play_arrow.png')
-        startPauseBtTxt.innerHTML = 'Começar'
+const contagemRegressiva = () => {
+    if (tempoDecorridoEmSeg <= 0) {
+        somStop.play()
+        zerar()
+        alert('Tempo Finalizado!')
+        tempoDecorridoEmSeg = 5
+        return
     }
-})
+    console.log('Temporizador', tempoDecorridoEmSeg)
+    tempoDecorridoEmSeg -= 1
+}
+
+startPauseBt.addEventListener('click', iniciarPausar)
 
 function alterarContexto(contexto) {
     botoes.forEach((contexto) => {
@@ -77,4 +87,23 @@ function alterarContexto(contexto) {
         default:
             break
     }
+}
+
+function iniciarPausar() {  
+    if (intervaloId) {
+        somPause.play()
+        zerar()
+        return
+    }
+    somPlay.play()
+    intervaloId = setInterval(contagemRegressiva, 1000)
+    startPauseBtImg.setAttribute('src', '/imagens/pause.png')
+    startPauseBtTxt.innerHTML = 'Pausar'
+}
+
+function zerar() {
+    clearInterval(intervaloId)
+    intervaloId = null
+    startPauseBtImg.setAttribute('src', '/imagens/play_arrow.png')
+    startPauseBtTxt.innerHTML = 'Começar'
 }
