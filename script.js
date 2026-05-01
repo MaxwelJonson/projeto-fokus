@@ -13,6 +13,9 @@ const tempoFoco = 1500
 const tempoCurto = 300
 const tempoLongo = 900
 
+const musicaBt = document.querySelector('#alternar-musica')
+const musica = new Audio('/sons/luna-rise-part-one.mp3')
+musica.loop = true
 const startPauseBt = document.querySelector('.app__card-primary-button')
 const startPauseBtImg = document.querySelector('.app__card-primary-butto-icon')
 const startPauseBtTxt = document.querySelector('span')
@@ -32,6 +35,14 @@ longoBt.addEventListener('click', () => {
     longoBt.classList.add('active')
 })
 
+musicaBt.addEventListener('change', () => {
+    if (musica.paused) {
+        musica.play()
+    } else {
+        musica.pause()
+    }
+})
+
 startPauseBt.addEventListener('click', () => {
     if (startPauseBtTxt.textContent == 'Começar') {
         startPauseBtImg.setAttribute('src', '/imagens/pause.png')
@@ -46,7 +57,7 @@ function alterarContexto(contexto) {
     botoes.forEach((contexto) => {
         contexto.classList.remove('active')
     })
-    
+
     html.setAttribute('data-contexto', contexto)
     imagemPag.setAttribute('src', `/imagens/${contexto}.png`)
 
