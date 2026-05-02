@@ -10,10 +10,10 @@ const longoBt = document.querySelector('.app__card-button--longo')
 
 const displayTempo = document.querySelector('#timer')
 let intervaloId = null
-let tempoDecorridoEmSeg = 5
 const tempoFoco = 1500
 const tempoCurto = 300
 const tempoLongo = 900
+let tempoDecorridoEmSeg = tempoFoco
 
 const musicaBt = document.querySelector('#alternar-musica')
 const musica = new Audio('/sons/luna-rise-part-one.mp3')
@@ -27,19 +27,24 @@ const startPauseBtImg = document.querySelector('.app__card-primary-butto-icon')
 const startPauseBtTxt = document.querySelector('span')
 
 focoBt.addEventListener('click', () => {
+    tempoDecorridoEmSeg = tempoFoco
     alterarContexto('foco')
     focoBt.classList.add('active')
 })
 
 curtoBt.addEventListener('click', () => {
+    tempoDecorridoEmSeg = tempoCurto
     alterarContexto('descanso-curto')
     curtoBt.classList.add('active')
 })
 
 longoBt.addEventListener('click', () => {
+    tempoDecorridoEmSeg = tempoLongo
     alterarContexto('descanso-longo')
     longoBt.classList.add('active')
 })
+
+tempoNaTela()
 
 musicaBt.addEventListener('change', () => {
     if (musica.paused) {
@@ -52,18 +57,20 @@ musicaBt.addEventListener('change', () => {
 const contagemRegressiva = () => {
     if (tempoDecorridoEmSeg <= 0) {
         somStop.play()
-        zerar()
         alert('Tempo Finalizado!')
-        tempoDecorridoEmSeg = 5
+        zerar()
+        tempoNaTela()
         return
     }
-    console.log('Temporizador', tempoDecorridoEmSeg)
     tempoDecorridoEmSeg -= 1
+    tempoNaTela()
 }
 
 startPauseBt.addEventListener('click', iniciarPausar)
 
 function alterarContexto(contexto) {
+    tempoNaTela()
+
     botoes.forEach((contexto) => {
         contexto.classList.remove('active')
     })
@@ -106,4 +113,19 @@ function zerar() {
     intervaloId = null
     startPauseBtImg.setAttribute('src', '/imagens/play_arrow.png')
     startPauseBtTxt.innerHTML = 'Começar'
+
+    if (focoBt.classList.contains('active')) {
+        tempoDecorridoEmSeg = tempoFoco
+    } else if (curtoBt.classList.contains('active')) {
+        tempoDecorridoEmSeg = tempoCurto
+    } else {
+        tempoDecorridoEmSeg = tempoLongo
+    }
+}
+
+function tempoNaTela() {
+    const tempo = new Date(tempoDecorridoEmSeg * 1000)
+    const tempoFOrmatado = tempo.toLocaleTimeString('pt-br', {minute: '2-digit', second: '2-digit'})
+
+    displayTempo.innerHTML = tempoFOrmatado
 }
