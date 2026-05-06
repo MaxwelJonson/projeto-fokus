@@ -2,6 +2,7 @@ const addTarefaBt = document.querySelector('.app__button--add-task')
 const addTarefaForm = document.querySelector('.app__form-add-task')
 const addTarefaTxtArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
+const cancelarBt = document.querySelector('.app__form-footer__button--cancel')
 
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 
@@ -48,9 +49,16 @@ function atualizaTarefas() {
     localStorage.setItem('tarefas', JSON.stringify(tarefas))
 }
 
+function limparConteudo() {
+    addTarefaTxtArea.value = ''
+    addTarefaForm.classList.add('hidden')
+}
+
 addTarefaBt.addEventListener('click', () => {
     addTarefaForm.classList.toggle('hidden')
 })
+
+cancelarBt.addEventListener('click', limparConteudo)
 
 addTarefaForm.addEventListener('submit', (evento) => {
     evento.preventDefault()
@@ -62,8 +70,7 @@ addTarefaForm.addEventListener('submit', (evento) => {
     atualizaTarefas()
     const elementoTarefa = criarElementoTarefa(tarefa)
     ulTarefas.append(elementoTarefa)
-    addTarefaTxtArea.value = ''
-    addTarefaForm.classList.add('hidden')
+    limparConteudo()
 })
 
 tarefas.forEach(tarefa => {
