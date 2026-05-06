@@ -23,6 +23,16 @@ function criarElementoTarefa(tarefa) {
 
     const button = document.createElement('button')
     button.classList.add('app_button-edit')
+
+    button.onclick = () => {
+        const novaDescricao = prompt('Qual é a nova descrição?')
+        if (novaDescricao) {
+            p.textContent = novaDescricao
+            tarefa.descricao = novaDescricao
+            atualizaTarefas()
+        }
+    }
+
     const img = document.createElement('img')
     img.setAttribute('src', '/imagens/edit.png')
     button.append(img)
@@ -32,6 +42,10 @@ function criarElementoTarefa(tarefa) {
     li.append(button)
 
     return li
+}
+
+function atualizaTarefas() {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
 }
 
 addTarefaBt.addEventListener('click', () => {
@@ -45,7 +59,7 @@ addTarefaForm.addEventListener('submit', (evento) => {
         descricao: addTarefaTxtArea.value
     }
     tarefas.push(tarefa)
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    atualizaTarefas()
     const elementoTarefa = criarElementoTarefa(tarefa)
     ulTarefas.append(elementoTarefa)
     addTarefaTxtArea.value = ''
