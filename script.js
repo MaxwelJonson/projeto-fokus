@@ -58,6 +58,11 @@ const contagemRegressiva = () => {
     if (tempoDecorridoEmSeg <= 0) {
         somStop.play()
         alert('Tempo Finalizado!')
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco'
+        if (focoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado')
+            html.dispatchEvent(evento)
+        }
         zerar()
         tempoNaTela()
         return
