@@ -4,8 +4,8 @@ const addTarefaTxtArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const cancelarBt = document.querySelector('.app__form-footer__button--cancel')
 const descricaoTarefaSelecionada = document.querySelector('.app__section-active-task-description')
-const removerConcluidas = document.querySelector('#btn-remover-concluidas')
-
+const removerTarefasConcluidas = document.querySelector('#btn-remover-concluidas')
+const removerTodasTarefas = document.querySelector('#btn-remover-todas')
 
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 let tarefaSelecionada = null
@@ -117,11 +117,14 @@ html.addEventListener('FocoFinalizado', () => {
     }
 })
 
-removerConcluidas.onclick = () => {
-    const seletor = '.app__section-task-list-item-complete'
+const removerTarefas = (somenteCompletas) => {
+    const seletor = somenteCompletas ? '.app__section-task-list-item-complete' : '.app__section-task-list-item'
     document.querySelectorAll(seletor).forEach(elemento => {
         elemento.remove()
     })
-    tarefas = tarefas.filter(tarefa => !tarefa.completa)
+    tarefas = somenteCompletas ? tarefas.filter(tarefa => !tarefa.completa) : []
     atualizaTarefas()
 }
+
+removerTarefasConcluidas.onclick = () => removerTarefas(true)
+removerTodasTarefas.onclick = () => removerTarefas(false)
